@@ -7,6 +7,7 @@ Writes the result to brief_data.json for downstream scripts to consume.
 import anthropic
 import json
 import os
+import re
 import sys
 from datetime import datetime
 
@@ -94,18 +95,11 @@ def extract_json_from_response(response) -> dict:
     if not text_content:
         raise ValueError("No text block found in Claude response")
 
-    # Strip accidental markdown fences
+    # Strip markdown code fences (```json...``` or ```...```)
     text_content = text_content.strip()
-    if text_content.startswith("```"):
-        lines = text_content.split("\n")
-        # Drop opening fence (```json or ```) and closing fence
-        start = 1
-        end = len(lines)
-        for i in range(len(lines) - 1, -1, -1):
-            if lines[i].strip() == "```":
-                end = i
-                break
-        text_content = "\n".join(lines[start:end])
+    fence_match = re.search(r'```(?:json)?\s*\n([\s\S]+?)\n```', text_content)
+    if fence_match:
+        text_content = fence_match.group(1).strip()
 
     return json.loads(text_content)
 
@@ -122,12 +116,12 @@ def main():
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-6",
+            model="claude-haiku-4-5-20251001",
             max_tokens=4000,
             tools=[{
                 "type": "web_search_20250305",
                 "name": "web_search",
-                "max_uses": 20
+                "max_uses": 6
             }],
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": build_user_prompt()}]
