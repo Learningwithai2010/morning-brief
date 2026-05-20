@@ -15,7 +15,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = REPO_ROOT / "brief_data.json"
 
-TO_ADDRESS = "maxi2010baumgart@gmail.com"
+TO_ADDRESS = "maxi2010million@icloud.com"
 
 
 def get_pages_url(date_str: str) -> str:
