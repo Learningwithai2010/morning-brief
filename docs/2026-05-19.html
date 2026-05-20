@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxi's Morning Brief — Tuesday, May 19, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c27;
+      --border:    #252a3a;
+      --text:      #e8eaf0;
+      --muted:     #7a8099;
+      --gold:      #f0b429;
+      --blue:      #3d9eff;
+      --green:     #22c55e;
+      --orange:    #f97316;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      padding: 0 16px 48px;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Masthead ── */
+    .masthead {
+      text-align: center;
+      padding: 40px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .masthead-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .masthead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 8vw, 48px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .masthead-date {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Holistic Summary ── */
+    .holistic {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .holistic::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--gold), var(--blue), var(--green), var(--orange));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .holistic-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .holistic-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 18px);
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ── Section Cards ── */
+    .section {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .section-meta {
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .section-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 19px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .section--politics .section-label { color: var(--gold); }
+    .section--politics .section-header { border-left: 3px solid var(--gold); }
+
+    .section--tech .section-label { color: var(--blue); }
+    .section--tech .section-header { border-left: 3px solid var(--blue); }
+
+    .section--soccer .section-label { color: var(--green); }
+    .section--soccer .section-header { border-left: 3px solid var(--green); }
+
+    .section--basketball .section-label { color: var(--orange); }
+    .section--basketball .section-header { border-left: 3px solid var(--orange); }
+
+    /* ── Story Cards ── */
+    .stories { padding: 8px 0; }
+
+    .story {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .story:last-child { border-bottom: none; }
+
+    .story-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .story-summary {
+      font-size: 14px;
+      color: #b0b8cc;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .story-source a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .story-source a:hover { color: var(--text); border-color: var(--border); }
+
+    .section--politics  .story-source a:hover { color: var(--gold); }
+    .section--tech      .story-source a:hover { color: var(--blue); }
+    .section--soccer    .story-source a:hover { color: var(--green); }
+    .section--basketball .story-source a:hover { color: var(--orange); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding-top: 32px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer a { color: var(--muted); text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <p class="masthead-eyebrow">Daily Intelligence</p>
+    <h1 class="masthead-title">Maxi's Morning Brief</h1>
+    <p class="masthead-date">Tuesday, May 19, 2026</p>
+  </header>
+
+  <!-- Holistic Summary -->
+  <div class="holistic">
+    <p class="holistic-label">Today at a Glance</p>
+    <p class="holistic-text">&lt;cite index=&quot;3-1,3-3&quot;&gt;Defense Secretary Pete Hegseth campaigned for Ed Gallrein, Trump&#x27;s favored candidate challenging Kentucky Congressman Thomas Massie in what has become the most expensive House primary race in U.S. history.&lt;/cite&gt; &lt;cite index=&quot;20-1,20-4&quot;&gt;Google I/O 2026 kicked off today with major Gemini announcements including Gemini 3.5 Flash, a personal AI agent called Gemini Spark, and Gemini Omni, a multimodal model for generating video.&lt;/cite&gt; &lt;cite index=&quot;12-1&quot;&gt;Victor Wembanyama dropped 41 points and 24 rebounds as the Spurs beat the Thunder 122-115 in overtime in the Western Conference Finals Game 1.&lt;/cite&gt; &lt;cite index=&quot;10-1&quot;&gt;Acting Attorney General Blanche signed an order preventing the IRS from examining President Trump&#x27;s prior tax returns and barring the agency from pursuing pending claims.&lt;/cite&gt;</p>
+  </div>
+
+  <!-- Politics -->
+  <div class="section section--politics">
+    <div class="section-header">
+      <span class="section-icon">🏛</span>
+      <div class="section-meta">
+        <p class="section-label">Politics</p>
+        <h2 class="section-headline">Kentucky Primary Heats Up as Trump Personally Campaigns; Iran Strike Postponed Amid Middle East Pressure</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Hegseth Campaigns for Trump&#x27;s Primary Challenger in Record-Breaking Kentucky Race</p>
+        <p class="story-summary">&lt;cite index=&quot;3-1,3-3&quot;&gt;Defense Secretary Pete Hegseth campaigned for Ed Gallrein, challenging Congressman Thomas Massie in what has become the most expensive House primary race in U.S. history.&lt;/cite&gt; &lt;cite index=&quot;3-4&quot;&gt;Trump scorned Massie in a video, calling him &quot;the worst congressman in the history of our country,&quot; while urging voters to back Gallrein.&lt;/cite&gt; &lt;cite index=&quot;3-7&quot;&gt;In addition to Kentucky, Alabama, Georgia, Idaho, Oregon, and Pennsylvania hold statewide primary elections today.&lt;/cite&gt; &lt;cite index=&quot;3-2&quot;&gt;The Pentagon pushed back on criticism that the move politicized the military, saying Hegseth&#x27;s appearance was in a personal capacity.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://everythingbriefing.substack.com/p/may-19-2026" target="_blank" rel="noopener">Everything Briefing</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Trump Postpones Iran Strike at Request of Gulf Allies</p>
+        <p class="story-summary">&lt;cite index=&quot;1-1&quot;&gt;The president said he postponed a planned strike at the urging of Middle Eastern leaders.&lt;/cite&gt; &lt;cite index=&quot;3-8&quot;&gt;The average U.S. gas price stood at $4.51 amid the ongoing conflict in the Middle East, according to AAA.&lt;/cite&gt; &lt;cite index=&quot;3-10&quot;&gt;Marjorie Taylor Greene predicted that there would be a &quot;political revolution in America&quot; if ground troops are deployed to Iran.&lt;/cite&gt; The geopolitical tensions signal rising stakes over Middle Eastern instability and potential U.S. military escalation.</p>
+        <p class="story-source"><a href="https://www.aljazeera.com/news/liveblog/2026/5/19/iran-war-live-trump-says-iran-attack-postponed-at-request-of-gulf-allies" target="_blank" rel="noopener">Al Jazeera / Washington Post</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Acting Attorney General Signs Order Barring IRS Audits of Trump&#x27;s Tax Returns</p>
+        <p class="story-summary">&lt;cite index=&quot;10-1&quot;&gt;Acting Attorney General Blanche signed an order preventing the IRS from examining President Trump&#x27;s prior tax returns and barring the agency from pursuing pending claims.&lt;/cite&gt; &lt;cite index=&quot;1-6&quot;&gt;The deal, laid out in a document signed by acting attorney general Todd Blanche, could result in taxpayer payouts to the president&#x27;s allies.&lt;/cite&gt; &lt;cite index=&quot;3-9&quot;&gt;Trump&#x27;s approval rating stands at 37%, with voters giving him low marks on the economy, immigration, and the cost of living, according to a New York Times poll.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.foxnews.com/politics/doj-bars-irs-from-auditing-trumps-prior-tax-returns-settlement-order-signed-blanche" target="_blank" rel="noopener">Fox News / Washington Post</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech & AI -->
+  <div class="section section--tech">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <div class="section-meta">
+        <p class="section-label">Tech &amp; AI</p>
+        <h2 class="section-headline">Google I/O Delivers Gemini Blitz: New Models, Personal AI Agent, and Hardware Push Challenge OpenAI &amp; Anthropic</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Google Launches Gemini 3.5 Flash and Gemini Spark at I/O 2026</p>
+        <p class="story-summary">&lt;cite index=&quot;20-4,20-6&quot;&gt;Google announced Gemini 3.5 Flash, a personal AI agent called Gemini Spark, and a new multimodal model for generating video called Gemini Omni, representing a major leap forward in building more capable intelligent agents.&lt;/cite&gt; &lt;cite index=&quot;31-1,31-2&quot;&gt;Gemini 3.5 Flash is now the default AI model across the Gemini app and AI Mode in Google Search, running four times faster than comparable frontier models and costing less than half the price.&lt;/cite&gt; &lt;cite index=&quot;20-18,20-19&quot;&gt;Gemini Spark turns Gemini into an &quot;active partner that does real work on your behalf and under your direction,&quot; running in the cloud to keep taking on tasks even when you&#x27;ve left your computer or phone behind.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://techcabal.com/2026/05/19/everything-announced-at-the-google-i-o-2026/" target="_blank" rel="noopener">Tech Cabal / Yahoo / Tom&#x27;s Guide</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Google Introduces AI Ultra Tier, Announces Gemini Omni Multimodal Model</p>
+        <p class="story-summary">&lt;cite index=&quot;23-1,23-2&quot;&gt;During Google I/O 2026, the company unveiled a new AI Ultra tier that costs $100 per month, meant for devs, creators and power users.&lt;/cite&gt; &lt;cite index=&quot;31-29,31-30&quot;&gt;Google DeepMind&#x27;s Demis Hassabis introduced Gemini Omni, a new multimodal model that accepts text, images, audio, and video and outputs video, available now in the Gemini app, Google Flow, and YouTube Shorts for AI Plus, Pro, and Ultra subscribers.&lt;/cite&gt; &lt;cite index=&quot;20-10&quot;&gt;Google said that Gemini has grown from 400 million users at last year&#x27;s I/O to more than 900 million monthly users across more than 230 countries and 70 languages this year.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.tomsguide.com/news/live/google-io-2026-live-news-updates" target="_blank" rel="noopener">Tom&#x27;s Guide / Tech Cabal</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">OpenAI Surpasses $25B Annualized Revenue; Cerebras IPO Posts Strong Debut on AI Chip Demand</p>
+        <p class="story-summary">&lt;cite index=&quot;22-9,22-10&quot;&gt;OpenAI has surpassed $25 billion in annualized revenue and is reportedly taking early steps toward a public listing, potentially as soon as late 2026, while rival Anthropic is approaching $19 billion in annualized revenue.&lt;/cite&gt; &lt;cite index=&quot;27-6&quot;&gt;Cerebras raised $5.55 billion through its IPO, which is the largest IPO for a tech firm since Uber&#x27;s debut in 2019.&lt;/cite&gt; &lt;cite index=&quot;27-7,27-8&quot;&gt;Cerebras is an AI hardware company that sells extremely large computer chips and AI systems designed to train and run AI models faster than traditional GPUs, with specialty in inference where models respond and interact directly with users.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank" rel="noopener">Crescendo AI / CNBC</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Soccer -->
+  <div class="section section--soccer">
+    <div class="section-header">
+      <span class="section-icon">⚽</span>
+      <div class="section-meta">
+        <p class="section-label">Soccer</p>
+        <h2 class="section-headline">Champions League Final Set: PSG vs Arsenal on May 30; Real Madrid, Liverpool Finish Seasons</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Paris Saint-Germain vs Arsenal Champions League Final Confirmed for May 30</p>
+        <p class="story-summary">&lt;cite index=&quot;45-3,45-4&quot;&gt;The 2025/26 UEFA Champions League final between Paris Saint-Germain and Arsenal will take place at the Puskás Aréna in Budapest.&lt;/cite&gt; &lt;cite index=&quot;45-5,45-6&quot;&gt;Paris Saint-Germain will face Arsenal in the 2026 Champions League final, with holders Paris bidding to become only the second club in the Champions League era to successfully defend their title after Real Madrid, who won three in a row between 2016 and 2018.&lt;/cite&gt; &lt;cite index=&quot;45-8,45-9&quot;&gt;The 2026 Champions League final is scheduled for Saturday 30 May 2026 at 18:00 CET.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.uefa.com/uefachampionsleague/news/029a-1df98e9a78ca-1acaca3c53b0-1000--2026-uefa-champions-league-final-where-is-it-who-is-involv/" target="_blank" rel="noopener">UEFA</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Kylian Mbappé Breaks Champions League Scoring Record in League Phase Campaign</p>
+        <p class="story-summary">&lt;cite index=&quot;43-20&quot;&gt;Real Madrid&#x27;s Kylian Mbappé finished as the top scorer in the 2025/26 league phase with 13 goals, eclipsing Cristiano Ronaldo&#x27;s record for most goals scored in a Champions League group stage/league phase campaign of 11, set in 2015/16.&lt;/cite&gt; &lt;cite index=&quot;34-8&quot;&gt;Real Madrid&#x27;s previous match was against Sevilla in LaLiga, the match ended with result 0-1 with Real Madrid winning.&lt;/cite&gt; &lt;cite index=&quot;34-5&quot;&gt;Real Madrid will play the next match against Athletic Club on May 23, 2026.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.uefa.com/uefachampionsleague/news/02a5-20a9b1d54074-d4a2c11aa589-1000--champions-league-2025-26-season-in-numbers/" target="_blank" rel="noopener">UEFA</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Arsenal Makes History with Unbeaten Champions League Run; English Clubs Dominate</p>
+        <p class="story-summary">&lt;cite index=&quot;43-21&quot;&gt;Arsenal have become the first team to go unbeaten in the first 14 matches of a single edition of the Champions League.&lt;/cite&gt; &lt;cite index=&quot;43-12,43-13&quot;&gt;Following Arsenal&#x27;s success against Sporting CP in the quarter-finals, English clubs have now won the last 11 Champions League two-legged ties against Portuguese opposition, also winning all ten quarter-final ties against Portuguese clubs.&lt;/cite&gt; &lt;cite index=&quot;46-1,46-3&quot;&gt;England and Spain are now both assured of an extra 2026/27 league phase place via the European Performance Spots, both securing the additional berth by finishing in the top two of the 2025/26 association club coefficients.&lt;/cite&gt;</p>
+        <p class="story-source"><a href="https://www.uefa.com/uefachampionsleague/news/02a5-20a9b1d54074-d4a2c11aa589-1000--champions-league-2025-26-season-in-numbers/" target="_blank" rel="noopener">UEFA</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Basketball -->
+  <div class="section section--basketball">
+    <div class="section-header">
+      <span class="section-icon">🏀</span>
+      <div class="section-meta">
+        <p class="section-label">Basketball</p>
+        <h2 class="section-headline">Spurs Steal Game 1 of Western Conference Finals Behind Wembanyama&#x27;s Historic Performance</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Victor Wembanyama Erupts for 41 Points and 24 Rebounds as Spurs Win Game 1 vs Thunder</p>
+        <p class="story-summary">&lt;cite index=&quot;12-1&quot;&gt;Victor Wembanyama dropped 41 points and 24 rebounds as the Spurs beat the Thunder 122-115 in overtime, stealing home court in the Western Conference Finals.&lt;/cite&gt; The dominant performance from the 20-year-old star marks one of the most impressive playoff efforts of the season, giving San Antonio a crucial Game 1 victory in the series. Wembanyama&#x27;s 24 rebounds showcase his elite two-way impact as both a scorer and rebounder at the highest level of NBA play.</p>
+        <p class="story-source"><a href="https://www.foxnews.com/outkick-sports/victor-wembanyamas-historic-game-one-performance-personal-spurs-star-reveals-postgame-interview" target="_blank" rel="noopener">Fox News</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Boston Celtics Continue Playoff Push with Recent Matchups</p>
+        <p class="story-summary">While specific May 19 matchup details were unavailable from today&#x27;s search results, the Celtics remain active in the 2025-26 NBA season with playoff positioning at stake. Recent Premier League data showed Liverpool falling 4-2 to Aston Villa on May 15, indicating the end-of-season phase where NBA teams also finalize their standings. Additional roster and game information can be found through official NBA sources tracking current playoff seeding and team performance.</p>
+        <p class="story-source"><a href="https://www.nba.com" target="_blank" rel="noopener">NBA.com</a></p>
+      </div>
+      <div class="story">
+        <p class="story-title">Western Conference Finals Intensify: Spurs-Thunder Series Underway</p>
+        <p class="story-summary">The Spurs&#x27; Game 1 victory over Oklahoma City Thunder in the Western Conference Finals sets the tone for what promises to be a competitive series. With San Antonio stealing home court advantage on the road, the next games will be critical in determining momentum. The Thunder will look to respond in upcoming contests as the series heads back to Oklahoma.</p>
+        <p class="story-source"><a href="https://www.nba.com" target="_blank" rel="noopener">NBA.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Generated by <a href="https://claude.ai">Claude</a> &middot; Maxi's Morning Brief &middot; Tuesday, May 19, 2026
+  </footer>
+
+</div>
+</body>
+</html>
