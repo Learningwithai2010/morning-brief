@@ -104,6 +104,19 @@ def extract_json_from_response(response) -> dict:
     return json.loads(text_content)
 
 
+_CITATION_RE = re.compile(r'</?cite[^>]*>')
+
+def strip_citations(obj):
+    """Recursively strip citation tags from all string values in a parsed JSON structure."""
+    if isinstance(obj, str):
+        return _CITATION_RE.sub('', obj)
+    if isinstance(obj, dict):
+        return {k: strip_citations(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [strip_citations(item) for item in obj]
+    return obj
+
+
 def main():
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
@@ -131,7 +144,7 @@ def main():
         sys.exit(1)
 
     try:
-        brief_data = extract_json_from_response(response)
+        brief_data = strip_citations(extract_json_from_response(response))
     except (ValueError, json.JSONDecodeError) as e:
         print(f"ERROR: Failed to parse JSON from Claude response: {e}", file=sys.stderr)
         # Dump raw response for debugging
