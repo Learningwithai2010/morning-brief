@@ -1,0 +1,51 @@
+name: Morning Brief
+
+on:
+  schedule:
+    # 11:00 UTC = 7:00am EDT (UTC-4, Mar–Nov)
+    # Change to 12:00 UTC in November when clocks fall back to EST (UTC-5)
+    - cron: "0 11 * * *"
+  workflow_dispatch:  # allow manual trigger from Actions UI
+
+permissions:
+  contents: write
+
+env:
+  TZ: America/New_York
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate brief
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/generate_brief.py
+
+      - name: Publish HTML page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/publish_page.py
+
+      - name: Send SMS
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/send_text.py

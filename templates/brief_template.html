@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxi's Morning Brief — {{DATE_DISPLAY}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c27;
+      --border:    #252a3a;
+      --text:      #e8eaf0;
+      --muted:     #7a8099;
+      --gold:      #f0b429;
+      --blue:      #3d9eff;
+      --green:     #22c55e;
+      --orange:    #f97316;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      padding: 0 16px 48px;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Masthead ── */
+    .masthead {
+      text-align: center;
+      padding: 40px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .masthead-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .masthead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 8vw, 48px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .masthead-date {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Holistic Summary ── */
+    .holistic {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .holistic::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--gold), var(--blue), var(--green), var(--orange));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .holistic-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .holistic-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 18px);
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ── Section Cards ── */
+    .section {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .section-meta {
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .section-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 19px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .section--politics .section-label { color: var(--gold); }
+    .section--politics .section-header { border-left: 3px solid var(--gold); }
+
+    .section--tech .section-label { color: var(--blue); }
+    .section--tech .section-header { border-left: 3px solid var(--blue); }
+
+    .section--soccer .section-label { color: var(--green); }
+    .section--soccer .section-header { border-left: 3px solid var(--green); }
+
+    .section--basketball .section-label { color: var(--orange); }
+    .section--basketball .section-header { border-left: 3px solid var(--orange); }
+
+    /* ── Story Cards ── */
+    .stories { padding: 8px 0; }
+
+    .story {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .story:last-child { border-bottom: none; }
+
+    .story-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .story-summary {
+      font-size: 14px;
+      color: #b0b8cc;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .story-source a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .story-source a:hover { color: var(--text); border-color: var(--border); }
+
+    .section--politics  .story-source a:hover { color: var(--gold); }
+    .section--tech      .story-source a:hover { color: var(--blue); }
+    .section--soccer    .story-source a:hover { color: var(--green); }
+    .section--basketball .story-source a:hover { color: var(--orange); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding-top: 32px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer a { color: var(--muted); text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <p class="masthead-eyebrow">Daily Intelligence</p>
+    <h1 class="masthead-title">Maxi's Morning Brief</h1>
+    <p class="masthead-date">{{DATE_DISPLAY}}</p>
+  </header>
+
+  <!-- Holistic Summary -->
+  <div class="holistic">
+    <p class="holistic-label">Today at a Glance</p>
+    <p class="holistic-text">{{HOLISTIC_SUMMARY}}</p>
+  </div>
+
+  <!-- Politics -->
+  <div class="section section--politics">
+    <div class="section-header">
+      <span class="section-icon">🏛</span>
+      <div class="section-meta">
+        <p class="section-label">Politics</p>
+        <h2 class="section-headline">{{POLITICS_HEADLINE}}</h2>
+      </div>
+    </div>
+    <div class="stories">
+      {{POLITICS_STORIES}}
+    </div>
+  </div>
+
+  <!-- Tech & AI -->
+  <div class="section section--tech">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <div class="section-meta">
+        <p class="section-label">Tech &amp; AI</p>
+        <h2 class="section-headline">{{TECH_HEADLINE}}</h2>
+      </div>
+    </div>
+    <div class="stories">
+      {{TECH_STORIES}}
+    </div>
+  </div>
+
+  <!-- Soccer -->
+  <div class="section section--soccer">
+    <div class="section-header">
+      <span class="section-icon">⚽</span>
+      <div class="section-meta">
+        <p class="section-label">Soccer</p>
+        <h2 class="section-headline">{{SOCCER_HEADLINE}}</h2>
+      </div>
+    </div>
+    <div class="stories">
+      {{SOCCER_STORIES}}
+    </div>
+  </div>
+
+  <!-- Basketball -->
+  <div class="section section--basketball">
+    <div class="section-header">
+      <span class="section-icon">🏀</span>
+      <div class="section-meta">
+        <p class="section-label">Basketball</p>
+        <h2 class="section-headline">{{BASKETBALL_HEADLINE}}</h2>
+      </div>
+    </div>
+    <div class="stories">
+      {{BASKETBALL_STORIES}}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Generated by <a href="https://claude.ai">Claude</a> &middot; Maxi's Morning Brief &middot; {{DATE_DISPLAY}}
+  </footer>
+
+</div>
+</body>
+</html>
