@@ -33,14 +33,16 @@ def get_github_pages_url() -> str:
 def render_stories(stories: list) -> str:
     parts = []
     for story in stories:
-        title   = html.escape(story.get("title", ""))
-        summary = html.escape(story.get("summary", ""))
-        source  = html.escape(story.get("source", ""))
-        url     = html.escape(story.get("url", "#"))
+        title          = html.escape(story.get("title", ""))
+        summary        = html.escape(story.get("summary", ""))
+        source         = html.escape(story.get("source", ""))
+        url            = html.escape(story.get("url", "#"))
+        published_date = html.escape(story.get("published_date", ""))
+        date_html = f'\n        <p class="story-date">{published_date}</p>' if published_date else ""
         parts.append(f"""      <div class="story">
         <p class="story-title">{title}</p>
         <p class="story-summary">{summary}</p>
-        <p class="story-source"><a href="{url}" target="_blank" rel="noopener">{source}</a></p>
+        <p class="story-source"><a href="{url}" target="_blank" rel="noopener">{source}</a></p>{date_html}
       </div>""")
     return "\n".join(parts)
 

@@ -9,13 +9,15 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 SYSTEM_PROMPT = """You are Maxi's personal morning news agent. You write tight, intelligent, well-sourced daily briefings for a 15-year-old named Maxi who is entrepreneurially driven, deeply interested in AI and technology, and passionate about soccer and basketball. He follows international politics closely through debate and Model UN. He is sharp, curious, and values substance over fluff.
 
 Your job is to research today's top stories using web search and produce a structured news summary. Write with energy and intelligence — not like a textbook, not like a tweet. Think: smart older brother who reads everything and distills it for you.
 
 TONE: Confident, clear, conversational but substantive. No filler phrases. No "In conclusion." Lead with what matters.
+
+FRESHNESS RULE — CRITICAL: You will be given an exact 24-hour cutoff timestamp in the user prompt. Only include stories published AFTER that cutoff. For every story you find, check the article's publication date before including it. If the article was published before the cutoff, skip it and find a fresher one. If you cannot confirm a story's publication date from the search results, do not include it. The published_date field must reflect the actual publication timestamp you found in the article — do not fabricate or estimate it.
 
 FORMAT: You must output ONLY valid JSON matching this exact schema — no preamble, no markdown, no explanation:
 
@@ -30,7 +32,8 @@ FORMAT: You must output ONLY valid JSON matching this exact schema — no preamb
           "title": "string",
           "summary": "string (3-4 sentences with real depth — include key names, numbers, stakes)",
           "source": "string (publication name)",
-          "url": "string"
+          "url": "string",
+          "published_date": "string (the article's actual publication timestamp, e.g. 'May 20, 2026, 9:14 AM ET')"
         }
       ]
     },
@@ -53,34 +56,40 @@ Each section should have 3-4 stories. For sports, always include scores, standin
 
 
 def build_user_prompt() -> str:
-    today = datetime.now().strftime("%B %d, %Y")
-    return f"""Today is {today}. Search the web and compile the top news stories for each section below.
-Use multiple web searches to ensure you have the freshest stories from today or yesterday.
+    now = datetime.now()
+    today = now.strftime("%B %d, %Y")
+    cutoff = now - timedelta(hours=24)
+    cutoff_str = cutoff.strftime("%B %d, %Y at %I:%M %p ET")
+    return f"""Today is {today}. The 24-hour freshness cutoff is {cutoff_str}. Only include stories published AFTER this cutoff. If you find a story but cannot verify it was published after {cutoff_str}, skip it entirely.
+
+Search the web and compile the top news stories for each section below. For every article you find, check its publication date before including it.
 
 SECTION 1 — US & GLOBAL POLITICS (equal weight to both)
-Search for: today's biggest US political news, major global political events today,
+Search for: US political news published after {cutoff_str}, major global political events in the last 24 hours,
 how US politics/policy is affecting global affairs right now.
 Priority topics: US government policy, international relations, geopolitical conflicts,
 anything tied to DOGE/government efficiency, AI regulation, education policy.
 
 SECTION 2 — TECHNOLOGY & AI
-Search for: biggest tech news today, major AI product releases or developments today,
-AI company news today, new model releases or AI research breakthroughs today.
+Search for: tech news published after {cutoff_str}, AI product releases or developments in the last 24 hours,
+AI company news in the last 24 hours, new model releases or AI research breakthroughs today.
 This section must include both general tech (product launches, company news, funding rounds)
 AND AI-specific news (new models, Anthropic/OpenAI/Google AI news, AI in education,
 AI tools relevant to app development). Flag any news relevant to educational AI apps.
 
 SECTION 3 — SOCCER
-Search for: EPL results and news today, La Liga results and news today,
+Search for: EPL results and news in the last 24 hours, La Liga results and news today,
 Champions League results and news today, Bundesliga results and news today,
 2026 World Cup news and updates today, Bayern Munich news today,
 Liverpool FC news today, Real Madrid news today, soccer transfer news today.
 Include scores, key scorers, standings implications, and any breaking transfer rumors or completions.
+Only include match results or transfer news confirmed after {cutoff_str}.
 
 SECTION 4 — BASKETBALL
-Search for: NBA scores and results today, NBA standings today, NBA news today,
+Search for: NBA scores and results in the last 24 hours, NBA standings today, NBA news today,
 Boston Celtics news today, San Antonio Spurs news today, NBA trade or signing news today.
 Include scores, standings impact, player performance highlights, and any roster news.
+Only include game results or transactions confirmed after {cutoff_str}.
 
 Return ONLY the JSON object. No other text."""
 
