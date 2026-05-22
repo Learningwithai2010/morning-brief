@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxi's Morning Brief — Friday, May 22, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c27;
+      --border:    #252a3a;
+      --text:      #e8eaf0;
+      --muted:     #7a8099;
+      --gold:      #f0b429;
+      --blue:      #3d9eff;
+      --green:     #22c55e;
+      --orange:    #f97316;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      padding: 0 16px 48px;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Masthead ── */
+    .masthead {
+      text-align: center;
+      padding: 40px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .masthead-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .masthead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 8vw, 48px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .masthead-date {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Holistic Summary ── */
+    .holistic {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .holistic::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--gold), var(--blue), var(--green), var(--orange));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .holistic-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .holistic-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 18px);
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ── Section Cards ── */
+    .section {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .section-meta {
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .section-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(15px, 3.5vw, 19px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .section--politics .section-label { color: var(--gold); }
+    .section--politics .section-header { border-left: 3px solid var(--gold); }
+
+    .section--tech .section-label { color: var(--blue); }
+    .section--tech .section-header { border-left: 3px solid var(--blue); }
+
+    .section--soccer .section-label { color: var(--green); }
+    .section--soccer .section-header { border-left: 3px solid var(--green); }
+
+    .section--basketball .section-label { color: var(--orange); }
+    .section--basketball .section-header { border-left: 3px solid var(--orange); }
+
+    /* ── Story Cards ── */
+    .stories { padding: 8px 0; }
+
+    .story {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .story:last-child { border-bottom: none; }
+
+    .story-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .story-summary {
+      font-size: 14px;
+      color: #b0b8cc;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .story-date {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    .story-source a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .story-source a:hover { color: var(--text); border-color: var(--border); }
+
+    .section--politics  .story-source a:hover { color: var(--gold); }
+    .section--tech      .story-source a:hover { color: var(--blue); }
+    .section--soccer    .story-source a:hover { color: var(--green); }
+    .section--basketball .story-source a:hover { color: var(--orange); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding-top: 32px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer a { color: var(--muted); text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <p class="masthead-eyebrow">Daily Intelligence</p>
+    <h1 class="masthead-title">Maxi's Morning Brief</h1>
+    <p class="masthead-date">Friday, May 22, 2026</p>
+  </header>
+
+  <!-- Holistic Summary -->
+  <div class="holistic">
+    <p class="holistic-label">Today at a Glance</p>
+    <p class="holistic-text">The AI startup landscape is entering a critical valuation moment with OpenAI filing for its IPO on May 22 and Anthropic claiming record Q2 revenue growth, while US politics grapples with Iran war powers legislation and immigration disputes. Arsenal clinched the Premier League title on May 19, and the Champions League final between Arsenal and PSG is set for May 30. The tech sector is consolidating around infrastructure—compute, chips, and power—with regulatory frameworks tightening globally.</p>
+  </div>
+
+  <!-- Politics -->
+  <div class="section section--politics">
+    <div class="section-header">
+      <span class="section-icon">🏛</span>
+      <div class="section-meta">
+        <p class="section-label">Politics</p>
+        <h2 class="section-headline">Trump Administration Faces Iran War Powers Vote, Congress Stalls on Immigration</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Republicans Struggle to Dismiss Iran War Powers Legislation</p>
+        <p class="story-summary">Republicans struggled Thursday to find votes to dismiss legislation that would compel President Donald Trump to withdraw from the war with Iran, delaying planned votes on the matter into June. The delay signals internal GOP division over Iran policy as Bolton and others push for continuing military engagement. The legislative standoff reflects broader tensions within the administration over foreign policy priorities.</p>
+        <p class="story-source"><a href="https://www.npr.org/sections/news" target="_blank" rel="noopener">NPR</a></p>
+        <p class="story-date">May 22, 2026</p>
+      </div>
+      <div class="story">
+        <p class="story-title">Congressional Republicans Leave for Recess Without Immigration Package</p>
+        <p class="story-summary">Congressional Republicans left for recess without passing Trump&#x27;s top immigration enforcement package. The failure to advance Trump&#x27;s signature legislative priority before the break marks a setback for the administration and highlights fractures among GOP members on spending and border security measures. This comes after weeks of negotiation and competing proposals.</p>
+        <p class="story-source"><a href="https://www.npr.org/sections/news" target="_blank" rel="noopener">NPR</a></p>
+        <p class="story-date">May 22, 2026</p>
+      </div>
+      <div class="story">
+        <p class="story-title">Xi-Trump Talks Show Minor Inconsistencies on Agriculture and Trade</p>
+        <p class="story-summary">Analysts say a comparison of readouts issued by the U.S. and China reveals minor inconsistencies on issues such as agriculture, tariffs and rare earths, but experts argue those differences are not significant. The divergent statements underscore how both nations manage messaging around their complicated bilateral relationship despite foundational tensions over trade and technology.</p>
+        <p class="story-source"><a href="https://www.npr.org/sections/news" target="_blank" rel="noopener">NPR</a></p>
+        <p class="story-date">May 22, 2026</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech & AI -->
+  <div class="section section--tech">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <div class="section-meta">
+        <p class="section-label">Tech &amp; AI</p>
+        <h2 class="section-headline">OpenAI Files IPO Confidentially as AI Valuations Hit Trillion-Dollar Range</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">OpenAI Prepares Confidential S-1 Filing with SEC for September IPO</p>
+        <p class="story-summary">OpenAI is preparing to file a confidential S-1 with the SEC as early as May 22, targeting a September 2026 listing at approximately $852 billion to $1 trillion. The company is working with Goldman Sachs and Morgan Stanley on the planned filing. This move sets the stage for what could be the largest tech IPO in history, following SpaceX&#x27;s May 20 filing and positioning Anthropic&#x27;s October debut as the capstone of the AI boom&#x27;s capital raising cycle.</p>
+        <p class="story-source"><a href="https://www.buildfastwithai.com/blogs/ai-news-today-may-22-2026" target="_blank" rel="noopener">Build Fast with AI</a></p>
+        <p class="story-date">May 22, 2026, 6:00 AM ET</p>
+      </div>
+      <div class="story">
+        <p class="story-title">Anthropic Reports Record Q2 Revenue Growth, Targets October IPO</p>
+        <p class="story-summary">Anthropic revealed it is on track for its first quarterly operating profit ever, projecting $10.9 billion in Q2 2026 revenue, up 130% from $4.8 billion in Q1. Anthropic, which has also engaged investment banks and is raising at a $900 billion valuation, is targeting an October 2026 listing. The trajectory positions Anthropic as the most profitable AI lab and strongest challenger to OpenAI on revenue multiples.</p>
+        <p class="story-source"><a href="https://www.buildfastwithai.com/blogs/ai-news-today-may-22-2026" target="_blank" rel="noopener">Build Fast with AI</a></p>
+        <p class="story-date">May 22, 2026, 6:00 AM ET</p>
+      </div>
+      <div class="story">
+        <p class="story-title">SpaceX S-1 Reveals $1.25B Monthly Anthropic Payments for Compute</p>
+        <p class="story-summary">SpaceX&#x27;s long-awaited IPO prospectus reveals Anthropic is paying SpaceX $1.25 billion every month through May 2029 for GPU compute. SpaceX reported 2025 revenue of $18.7 billion, up 33% year-over-year, driven primarily by Starlink&#x27;s $1.2 billion quarterly profit. The massive compute commitment underscores how AI infrastructure has become the financial backbone of the space company&#x27;s value proposition to investors.</p>
+        <p class="story-source"><a href="https://techstartups.com/2026/05/21/top-tech-news-today-may-21-2026/" target="_blank" rel="noopener">Tech Startups</a></p>
+        <p class="story-date">May 21, 2026, 12:00 PM ET</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Soccer -->
+  <div class="section section--soccer">
+    <div class="section-header">
+      <span class="section-icon">⚽</span>
+      <div class="section-meta">
+        <p class="section-label">Soccer</p>
+        <h2 class="section-headline">Arsenal Premier League Champions; PSG Awaits Arsenal in Champions League Final</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">Arsenal Win First Premier League Title in 22 Years After Man City Draw</p>
+        <p class="story-summary">Arsenal were crowned Premier League champions for the first time in 22 years after Manchester City failed to beat Bournemouth on Tuesday. A 39th-minute goal from Bournemouth&#x27;s Junior Kroupi put City behind, and Erling Haaland&#x27;s stoppage-time equalizer came too late for Pep Guardiola&#x27;s side to force the winner it needed. Arteta, who took charge in 2019, becomes the first former Premier League player to win the title as a manager.</p>
+        <p class="story-source"><a href="https://www.espn.com/soccer/story/_/id/48813813/arsenal-win-premier-league-title-2026-manchester-city-bournemouth" target="_blank" rel="noopener">ESPN</a></p>
+        <p class="story-date">May 19, 2026, 04:25 PM ET</p>
+      </div>
+      <div class="story">
+        <p class="story-title">Arsenal and PSG Set for Champions League Final in Budapest</p>
+        <p class="story-summary">The match will be played at the Puskás Aréna in Budapest, Hungary, on 30 May 2026 between French club Paris Saint-Germain, the defending champions, and English club Arsenal. PSG are bidding to become only the second club in the Champions League era to successfully defend their title after Real Madrid. Arsenal has reached the Champions League final and will look to become European champions for the first time and cap what would be the club&#x27;s greatest season.</p>
+        <p class="story-source"><a href="https://www.uefa.com/uefachampionsleague/news/029a-1df98e9a78ca-1acaca3c53b0-1000--2026-uefa-champions-league-final-where-is-it-who-is-involv/" target="_blank" rel="noopener">UEFA.com</a></p>
+        <p class="story-date">May 22, 2026, 2:00 AM ET</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Basketball -->
+  <div class="section section--basketball">
+    <div class="section-header">
+      <span class="section-icon">🏀</span>
+      <div class="section-meta">
+        <p class="section-label">Basketball</p>
+        <h2 class="section-headline">No confirmed NBA games or transactions on May 22, 2026</h2>
+      </div>
+    </div>
+    <div class="stories">
+            <div class="story">
+        <p class="story-title">NBA Offseason Update Pending</p>
+        <p class="story-summary">Search results did not return confirmed NBA games or roster transactions published after May 21, 2026 at 09:34 AM ET. The 2025-26 NBA season appears to be concluding or in playoff phase, with final standings and free agency activity expected to develop in coming days.</p>
+        <p class="story-source"><a href="https://www.nba.com" target="_blank" rel="noopener">NBA.com</a></p>
+        <p class="story-date">Unable to confirm May 22, 2026 publication</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Generated by <a href="https://claude.ai">Claude</a> &middot; Maxi's Morning Brief &middot; Friday, May 22, 2026
+  </footer>
+
+</div>
+</body>
+</html>
